@@ -53,10 +53,7 @@ def is_valid_rating(rating:int):
     return 1 <= rating <= 5
 
 def set_rating(new_quote):
-    try:
-        if not is_valid_rating(new_quote["rating"]):
-            new_quote["rating"] = 1
-    except KeyError:
+    if not ("rating" in new_quote and is_valid_rating(new_quote["rating"])):
         new_quote["rating"] = 1
     return new_quote["rating"]
 
@@ -79,7 +76,7 @@ def edit_quote(id:int):
             for key in new_quote.keys():
                 if key in quote.keys():
                     if key == "rating":
-                        new_quote[key] = set_rating(new_quote)
+                        quote[key] = set_rating(new_quote)
                     else:
                         quote[key] = new_quote[key]
             return quote, 200
